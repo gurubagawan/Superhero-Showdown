@@ -40,7 +40,7 @@ class App extends Component {
 				hero2: "Gamora"
 			});
 		}
-	} //
+	}
 
 	render() {
 		return (
