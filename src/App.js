@@ -1,21 +1,59 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			hero1: "Ironman",
+			hero2: "Doctor Strange",
+			heroes: [
+				"Ant-Man",
+				"Black Panther",
+				"Black Widow",
+				"Captain America",
+				"Doctor Strange",
+				"Drax",
+				"Gamora",
+				"Ironman",
+				"Rocket Raccoon",
+				"Scarlet Witch",
+				"Spiderman",
+				"Star-Lord",
+				"Superman",
+				"Thor",
+				"Vision"
+			],
+			rankedArray: [],
+			round: 1
+		};
+	}
+
+	componentDidMount() {
+		if (this.state.round === 1) {
+			this.setState({
+				hero1: "Ironman",
+				hero2: "Scarlet Witch"
+			});
+		} else if (this.state.round === 2) {
+			this.setState({
+				hero1: "Vision",
+				hero2: "Gamora"
+			});
+		}
+	}
+
+	render() {
+		return (
+			<div className="outerbox">
+				<div className="herobox">
+					<img class="images" src={`./img/${this.state.hero1}.jpg`} />
+				</div>
+				<div className="herobox">
+					<img class="images" src={`./img/${this.state.hero2}.jpg`} />
+				</div>
+			</div>
+		);
+	}
 }
 
 export default App;
