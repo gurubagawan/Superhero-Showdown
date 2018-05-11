@@ -60,8 +60,10 @@ class App extends Component {
 				tempRankedArray.splice(index, 0, this.state.leftHero);
 				console.log(tempRankedArray);
 				this.setState({
-					rankedArray: tempRankedArray
+					rankedArray: tempRankedArray,
+					pickedArray: null
 				});
+				this.setHeroes();
 			} else {
 				console.log("ran if");
 				let tempArray = this.state.pickedArray.slice(
@@ -98,8 +100,10 @@ class App extends Component {
 				tempRankedArray.splice(index + 1, 0, this.state.leftHero);
 				console.log(tempRankedArray);
 				this.setState({
-					rankedArray: tempRankedArray
+					rankedArray: tempRankedArray,
+					pickedArray: null
 				});
+				this.setHeroes();
 			} else {
 				console.log("ran if");
 				let tempArray = this.state.pickedArray.slice(
