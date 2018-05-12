@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Dialog from "material-ui/Dialog";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import _ from "lodash";
 
 class App extends Component {
@@ -33,6 +35,7 @@ class App extends Component {
 		let pullNumber = Math.floor(Math.random() * this.state.heroes.length);
 		console.log(this.state);
 		this.setState({
+			total: this.state.heroes.length + 1,
 			rightHero: this.state.heroes.splice(pullNumber, 1)[0]
 		});
 	}
@@ -48,6 +51,16 @@ class App extends Component {
 	};
 
 	// If user picks right, they always go down, if they pick left they go up. Create shallow arrays based on feedback
+
+	rankedList = () => {
+		return this.state.rankedArray.map((hero, i) => {
+			return (
+				<div>
+					{i + 1}) {hero.name}
+				</div>
+			);
+		});
+	};
 
 	pickLeft = () => {
 		if (this.state.pickedArray) {
@@ -68,7 +81,7 @@ class App extends Component {
 				console.log("ran if");
 				let tempArray = this.state.pickedArray.slice(
 					0,
-					Math.ceil(this.state.pickedArray.length / 2)
+					Math.floor(this.state.pickedArray.length / 2)
 				);
 				this.setState({
 					pickedArray: tempArray,
@@ -79,7 +92,7 @@ class App extends Component {
 			console.log("ran if not");
 			let tempArray = this.state.rankedArray.slice(
 				0,
-				Math.ceil(this.state.rankedArray.length / 2)
+				Math.floor(this.state.rankedArray.length / 2)
 			);
 			console.log(tempArray, tempArray[Math.floor(tempArray.length / 2)]);
 			this.setState({
@@ -127,28 +140,6 @@ class App extends Component {
 				rightHero: tempArray[Math.floor(tempArray.length / 2)]
 			});
 		}
-		// if (this.state.pickedArray) {
-		// 	let tempArray = this.state.pickedArray.slice(
-		// 		0,
-		// 		Math.floor(this.state.pickedArray.length / 2)
-		// 	);
-		// 	this.setState({
-		// 		pickedArray: tempArray
-		// 	});
-		// } else if (!this.state.pickedArray) {
-		// 	let tempArray = this.state.rankedArray.slice(
-		// 		0,
-		// 		Math.floor(this.state.rankedArray.length / 2)
-		// 	);
-		// 	this.setState({
-		// 		pickedArray: tempArray
-		// 	});
-		// }
-		// this.setState({
-		// 	leftHero: this.state.pickedArray[
-		// 		Math.floor(this.state.pickedArray.length / 2)
-		// 	]
-		// });
 	};
 
 	pickRightFirst = () => {
@@ -175,43 +166,60 @@ class App extends Component {
 			rightHero,
 			heroes,
 			rankedArray,
-			currentHero
+			currentHero,
+			total
 		} = this.state;
-		return rankedArray.length === 0 ? (
-			<div className="outerbox">
-				<div className="herobox">
-					<img
-						className="images"
-						onClick={() => this.pickLeftFirst()}
-						src={`./img/${leftHero.name}.jpg`}
-					/>
+		if (rankedArray.length === total) {
+			return (
+				<div className="winning-herobox">
+					<img className="images" src={`./img/${rankedArray[0].name}.jpg`} />
+					<MuiThemeProvider>
+						<Dialog style={{ width: "30%", marginLeft: "35%" }} open={true}>
+							<h3 style={{ textAlign: "center" }}> Your MCU Hero Ranking </h3>
+							{this.rankedList()}
+						</Dialog>
+					</MuiThemeProvider>
 				</div>
-				<div className="herobox">
-					<img
-						className="images"
-						src={`./img/${rightHero.name}.jpg`}
-						onClick={() => this.pickRightFirst()}
-					/>
+			);
+		} else if (rankedArray.length === 0) {
+			return (
+				<div className="outerbox">
+					<div className="herobox">
+						<img
+							className="images"
+							onClick={() => this.pickLeftFirst()}
+							src={`./img/${leftHero.name}.jpg`}
+						/>
+					</div>
+					<div className="herobox">
+						<img
+							className="images"
+							src={`./img/${rightHero.name}.jpg`}
+							onClick={() => this.pickRightFirst()}
+						/>
+					</div>
 				</div>
-			</div>
-		) : (
-			<div className="outerbox">
-				<div className="herobox">
-					<img
-						className="images"
-						onClick={() => this.pickLeft()}
-						src={`./img/${this.state.leftHero.name}.jpg`}
-					/>
+			);
+		} else {
+			return (
+				<div className="outerbox">
+					<div className="herobox">
+						<img
+							className="images"
+							onClick={() => this.pickLeft()}
+							src={`./img/${this.state.leftHero.name}.jpg`}
+						/>
+					</div>
+					<div className="herobox">
+						<img
+							className="images"
+							onClick={() => this.pickRight()}
+							src={`./img/${this.state.rightHero.name}.jpg`}
+						/>
+					</div>
 				</div>
-				<div className="herobox">
-					<img
-						className="images"
-						onClick={() => this.pickRight()}
-						src={`./img/${this.state.rightHero.name}.jpg`}
-					/>
-				</div>
-			</div>
-		);
+			);
+		}
 	}
 }
 
