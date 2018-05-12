@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Dialog from "material-ui/Dialog";
+import FlatButton from "material-ui/FlatButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import _ from "lodash";
 
@@ -16,17 +17,21 @@ class App extends Component {
 				{ name: "Captain America" },
 				{ name: "Doctor Strange" },
 				{ name: "Drax" },
+				{ name: "Falcon" },
 				{ name: "Gamora" },
+				{ name: "Hawkeye" },
 				{ name: "Rocket Raccoon" },
 				{ name: "Spiderman" },
 				{ name: "Star-Lord" },
 				{ name: "Thor" },
-				{ name: "Vision" }
+				{ name: "Vision" },
+				{ name: "War Machine" }
 			],
 			rankedArray: [],
 			rightHero: "",
 			leftHero: { name: "Ironman" },
-			round: 0
+			round: 0,
+			open: true
 		};
 		this.pickLeft = this.pickLeft.bind(this);
 	}
@@ -142,6 +147,12 @@ class App extends Component {
 		}
 	};
 
+	handleClose = () => {
+		this.setState({
+			open: false
+		});
+	};
+
 	pickRightFirst = () => {
 		let tempArray = this.state.rankedArray;
 		tempArray.push(this.state.rightHero, this.state.leftHero);
@@ -167,8 +178,15 @@ class App extends Component {
 			heroes,
 			rankedArray,
 			currentHero,
-			total
+			total,
+			open
 		} = this.state;
+		const actions = [
+			<FlatButton
+				label="Let's get started"
+				onClick={() => this.handleClose()}
+			/>
+		];
 		if (rankedArray.length === total) {
 			return (
 				<div className="winning-herobox">
@@ -184,6 +202,22 @@ class App extends Component {
 		} else if (rankedArray.length === 0) {
 			return (
 				<div className="outerbox">
+					<MuiThemeProvider>
+						<Dialog
+							style={{ width: "50%", marginLeft: "25%" }}
+							open={open}
+							actions={actions}
+							modal={true}
+						>
+							<h3 style={{ textAlign: "center" }}>
+								{" "}
+								Welcome to the MCU Superhero Showdown!{" "}
+							</h3>
+							Pick your favourite hero as they go head-to-head and receive your
+							very own ranking when you're finished
+							{this.rankedList()}
+						</Dialog>
+					</MuiThemeProvider>
 					<div className="herobox">
 						<img
 							className="images"
