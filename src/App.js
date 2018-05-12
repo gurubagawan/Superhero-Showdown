@@ -192,7 +192,11 @@ class App extends Component {
 				<div className="winning-herobox">
 					<img className="images" src={`./img/${rankedArray[0].name}.jpg`} />
 					<MuiThemeProvider>
-						<Dialog style={{ width: "30%", marginLeft: "35%" }} open={true}>
+						<Dialog
+							overlayStyle={{ backgroundColor: "transparent" }}
+							style={{ width: "30%", marginLeft: "35%" }}
+							open={true}
+						>
 							<h3 style={{ textAlign: "center" }}> Your MCU Hero Ranking </h3>
 							{this.rankedList()}
 						</Dialog>
